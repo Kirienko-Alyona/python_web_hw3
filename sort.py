@@ -35,7 +35,7 @@ def sorted(path: Path):
             with ThreadPoolExecutor(max_workers = 5) as executor:
                 executor.submit(sorted, element)  
             
-            if element == images or element == video or element == archives or element == documents or element == audio or element == unknown_extension:
+            if element in (images, video, archives, documents, audio, unknown_extension):
                 continue
             else:
                 try:
@@ -50,7 +50,7 @@ def sorted(path: Path):
 def sorted_files(file: Path):      
     file_extension = file.suffix
     file_extension = file_extension.casefold()         
-    if file_extension == ".zip" or file_extension == ".gz" or file_extension == ".tar":
+    if file_extension in (".zip", ".gz", ".tar"):
         archives.mkdir(parents=True, exist_ok=True)
         name_folder = file.name 
         name_folder = name_folder.removesuffix(file_extension)
@@ -59,19 +59,19 @@ def sorted_files(file: Path):
         shutil.unpack_archive(file, new_path)
         shutil.move(file, archives)
         list_extensions.append(file_extension)  
-    elif file_extension == ".png" or file_extension == ".jpeg" or file_extension == ".jpg" or file_extension == ".svg":
+    elif file_extension in (".png", ".jpeg", ".jpg", ".svg"):
         images.mkdir(parents=True, exist_ok=True)
         shutil.move(file, images)   
         list_extensions.append(file_extension)
-    elif file_extension ==".doc" or file_extension == ".docx" or file_extension == ".txt" or file_extension == ".pdf" or file_extension == ".xlsx" or file_extension == ".pptx":
+    elif file_extension in (".doc", ".docx", ".txt", ".pdf", ".xlsx", ".pptx"):
         documents.mkdir(parents=True, exist_ok=True)
         shutil.move(file, documents) 
         list_extensions.append(file_extension)
-    elif file_extension == ".avi" or file_extension == ".mp4" or file_extension == ".mov" or file_extension == ".mkv":
+    elif file_extension in (".avi", ".mp4", ".mov", ".mkv"):
         video.mkdir(parents=True, exist_ok=True)
         shutil.move(file, video) 
         list_extensions.append(file_extension)
-    elif file_extension == ".mp3" or file_extension == ".ogg" or file_extension == ".wav" or file_extension == ".amr":
+    elif file_extension in (".mp3", ".ogg", ".wav", ".amr"):
         audio.mkdir(parents=True, exist_ok=True)
         shutil.move(file, audio) 
         list_extensions.append(file_extension)
